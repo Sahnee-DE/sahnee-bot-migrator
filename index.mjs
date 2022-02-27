@@ -4,7 +4,9 @@ import readLiteDb from './litedb.mjs';
 import migrate from './migrator.mjs';
 
 console.info('Creating PostgreSQL Client...');
-const client = new pg.Client(config('ConnectionStrings:SahneeBotModelContext'))
+const client = new pg.Client({
+  connectionString: config('ConnectionStrings:SahneeBotModelContext'),
+});
 await client.connect();
 console.info('Client created an connected to database.');
 
