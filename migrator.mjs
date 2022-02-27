@@ -73,10 +73,10 @@ async function transaction(db, fn) {
 /**
  * Gets a long from the data.
  * @param {{$numberLong: string}} of The long string
- * @returns {number} The long.
+ * @returns {string} The long as a string since JS has not enough bits.
  */
 function $numberLong(of) {
-  return parseInt(of.$numberLong);
+  return of.$numberLong;
 }
 
 /**
