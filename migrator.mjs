@@ -12,9 +12,9 @@ export default async function migrate(db, json) {
     console.info('Migrating warnings...');
     // WARNINGS
     for(const warning of json.warnings) {
-      console.debug(' ... Parsing warning ' + warning._id);
+      console.debug(' ... Parsing warnings (' + warning._id + ')');
       const warningSnowflake = guidToSnowflake(warning._id);
-      console.debug(' ... Inserting warning ' + warningSnowflake);
+      console.debug(' ... Inserting Warnings (' + warningSnowflake + ')');
       await db.query(`
         INSERT INTO "Warnings" ("Id", "GuildId", "UserId", "Time", "IssuerUserId", "Reason", "Number", "Type")
         VALUES                 ($1,   $2,        $3,       $4,     $5,             $6,       $7,       $8    );
@@ -33,7 +33,7 @@ export default async function migrate(db, json) {
     console.info('Migrating changelogs...');
     const changelogGuilds = new Map();
     for (const changelog of json.warningbot_changelog) {
-      console.debug(' ... Parsing changelog ' + changelog._id);
+      console.debug(' ... Parsing warningbot_changelog (' + changelog._id + ')');
       const guildId = $numberLong(changelog.GuildId);
       const version = changelog.LatestVersion.match(/\d+\.\d+.\d+/)[0];
       const oldVersion = changelogGuilds.get(guildId);
@@ -42,7 +42,7 @@ export default async function migrate(db, json) {
       }
     }
     for (const [guildId, version] of changelogGuilds) {
-      console.debug(' ... Inserting changelog ' + guildId);
+      console.debug(' ... Inserting GuildStates ' + guildId);
       await db.query(`
         INSERT INTO "GuildStates" ("GuildId", "SetRoles", "LastChangelogVersion")
         VALUES                    ($1,        true,       $2                    );
@@ -54,7 +54,7 @@ export default async function migrate(db, json) {
     // ROLES
     console.info('Migrating roles...');
     for (const role of json.warningbot_roles) {
-      console.debug(' ... Parsing role ' + role._id);
+      console.debug(' ... Parsing warningbot_roles (' + role._id + ')');
       const guildId = $numberLong(role.GuildId);
       const roleId = $numberLong(role.RoleId);
       const roleType = role.RoleType;
@@ -69,7 +69,7 @@ export default async function migrate(db, json) {
         default:
           throw new Error('Unknown role type ' + roleType);
       }
-      console.debug(' ... Inserting role (' + guildId + ',' + roleId + ')');
+      console.debug(' ... Inserting Roles (' + guildId + ',' + roleId + ')');
       await db.query(`
         INSERT INTO "Roles" ("GuildId", "RoleId", "RoleType")
         VALUES              ($1,        $2,       $3        );
