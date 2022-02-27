@@ -15,5 +15,6 @@ await migrate(client, liteDb);
 
 console.info(' === SAHNEE-BOT-MIGRATOR RAN TO COMPLETION - PLEASE REVIEW THE LOG FOR POTENTIAL ERRORS === ');
 console.info('GitHub: https://github.com/Sahnee-DE/sahnee-bot-migrator');
+console.info('LiteDB.Studio: https://github.com/Sahnee-DE/LiteDB.Studio/releases/tag/v1.0.2-SAHNEE');
 
 process.exit(0);
