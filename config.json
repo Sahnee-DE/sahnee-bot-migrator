@@ -1,0 +1,9 @@
+{
+  "ConnectionStrings": {
+    "SahneeBotModelContext": {
+    }
+  },
+  "LiteDb": {
+    "Users": "./db/db1.json"
+  }
+}

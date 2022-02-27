@@ -1,0 +1,29 @@
+{
+  "name": "sahnee-bot-migrator",
+  "version": "1.0.0",
+  "description": "Migrate Sahnee-Bot 0.9.X DB to 1.X DB",
+  "main": "index.mjs",
+  "scripts": {
+    "start": "node index.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sahnee-DE/sahnee-bot-migrator.git"
+  },
+  "keywords": [
+    "Sahnee-Bot",
+    "Discord",
+    "Migration",
+    "PostgreSQL",
+    "LiteDB"
+  ],
+  "author": "Sahnee.dev",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Sahnee-DE/sahnee-bot-migrator/issues"
+  },
+  "homepage": "https://github.com/Sahnee-DE/sahnee-bot-migrator#readme",
+  "dependencies": {
+    "pg": "^8.7.3"
+  }
+}
