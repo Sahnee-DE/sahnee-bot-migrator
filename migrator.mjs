@@ -51,6 +51,35 @@ export default async function migrate(db, json) {
         version,
       ]);
     }
+    // ROLES
+    console.info('Migrating roles...');
+    for (const role of json.warningbot_roles) {
+      console.debug(' ... Parsing role ' + role._id);
+      const guildId = $numberLong(role.GuildId);
+      const roleId = $numberLong(role.RoleId);
+      const roleType = role.RoleType;
+      let roleEnum = 0b00;
+      switch(roleType) {
+        case 'WarningBotMod':
+          roleEnum |= 0b10;
+          break;
+        case 'WarningBotAdmin':
+          roleEnum |= 0b01;
+          break;
+        default:
+          throw new Error('Unknown role type ' + roleType);
+      }
+      console.debug(' ... Inserting role (' + guildId + ',' + roleId + ')');
+      await db.query(`
+        INSERT INTO "Roles" ("GuildId", "RoleId", "RoleType")
+        VALUES              ($1,        $2,       $3        );
+      `, [
+        guildId,
+        roleId,
+        roleEnum,
+      ]);
+    }
+
   })
 }
 
