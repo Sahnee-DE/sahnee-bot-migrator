@@ -1,11 +1,11 @@
-import config from './config.mjs';
-import fs from 'fs';
+const config = require('./config');
+const fs = require('fs');
 
 /**
  * Reads all old LiteDB files.
  * @returns {Record<string, Record<string, any>[]>} All parsed data.
  */
-export default function readLiteDb() {
+module.exports = function readLiteDb() {
   const files = config('LiteDb');
   console.info('Now loading LiteDB files', Object.keys(files));
   const acc = {};

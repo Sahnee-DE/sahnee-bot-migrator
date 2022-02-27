@@ -2,9 +2,9 @@
   "name": "sahnee-bot-migrator",
   "version": "1.0.0",
   "description": "Migrate Sahnee-Bot 0.9.X DB to 1.X DB",
-  "main": "index.mjs",
+  "main": "index.js",
   "scripts": {
-    "start": "node index.mjs"
+    "start": "node .",
   },
   "repository": {
     "type": "git",

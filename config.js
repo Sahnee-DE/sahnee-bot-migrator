@@ -1,4 +1,4 @@
-import fs from 'fs';
+const fs = require('fs');
 
 /**
  * Reads the config file from disk.
@@ -22,7 +22,7 @@ let config = readConfig();
  * @example
  * get('MigratorSettings:TestSetting')
  */
-export default function get(path) {
+module.exports = function get(path) {
   const els = path.split(':');
   let current = config;
   for (let i = 0; i < els.length; i++) {
