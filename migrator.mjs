@@ -12,12 +12,14 @@ export default async function migrate(db, json) {
     console.info('Migrating warnings...');
     // WARNINGS
     for(const warning of json.warnings) {
-      console.debug(' ... Warning ' + warning._id);
+      console.debug(' ... Parsing warning ' + warning._id);
+      const warningSnowflake = guidToSnowflake(warning._id);
+      console.debug(' ... Inserting warning ' + warningSnowflake);
       await db.query(`
         INSERT INTO "Warnings" ("Id", "GuildId", "UserId", "Time", "IssuerUserId", "Reason", "Number", "Type")
         VALUES                 ($1,   $2,        $3,       $4,     $5,             $6,       $7,       $8    );
       `, [
-        guidToSnowflake(warning._id),
+        warningSnowflake,
         $numberLong(warning.GuildId),
         $numberLong(warning.To),
         $date(warning.Time),
@@ -31,6 +33,7 @@ export default async function migrate(db, json) {
     console.info('Migrating changelogs...');
     const changelogGuilds = new Map();
     for (const changelog of json.warningbot_changelog) {
+      console.debug(' ... Parsing changelog ' + changelog._id);
       const guildId = $numberLong(changelog.GuildId);
       const version = changelog.LatestVersion.match(/\d+\.\d+.\d+/)[0];
       const oldVersion = changelogGuilds.get(guildId);
@@ -39,7 +42,7 @@ export default async function migrate(db, json) {
       }
     }
     for (const [guildId, version] of changelogGuilds) {
-      console.debug(' ... Changelog ' + guildId);
+      console.debug(' ... Inserting changelog ' + guildId);
       await db.query(`
         INSERT INTO "GuildStates" ("GuildId", "SetRoles", "LastChangelogVersion")
         VALUES                    ($1,        true,       $2                    );
