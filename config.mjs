@@ -5,7 +5,7 @@ import fs from 'fs';
  * @returns {Record<string, any>} The config JSON.
  */
 function readConfig() {
-  const data = fs.readFileSync(process.env.SBM_CONFIG || './config.json');
+  const data = fs.readFileSync(process.env.SBM_APPSETTINGS || './appsettings.json');
   const str = data.toString();
   return JSON.parse(str);
 }
