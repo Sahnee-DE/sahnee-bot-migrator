@@ -6,7 +6,8 @@
   "bin": "index.js",
   "scripts": {
     "start": "node .",
-    "build": "pkg ."
+    "build.pkg": "pkg . --out-path pkg",
+    "build": "node build.js"
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,7 @@
     "pg": "^8.7.3"
   },
   "devDependencies": {
+    "fs-extra": "^10.0.1",
     "pkg": "^5.5.2"
   }
 }
