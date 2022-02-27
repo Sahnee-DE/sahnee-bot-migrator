@@ -79,7 +79,23 @@ export default async function migrate(db, json) {
         roleEnum,
       ]);
     }
-
+    // STATES
+    console.info('Migrating states...');
+    for (const state of json.warningbot_state) {
+      console.debug(' ... Parsing warningbot_state (' + state._id + ')');
+      const guildId = $numberLong(state.GuildId);
+      const userId = $numberLong(state.UserId);
+      const number = $numberLong(state.Number);
+      console.debug(' ... Inserting UserGuildStates (' + guildId + ',' + userId + ')');
+      await db.query(`
+        INSERT INTO "UserGuildStates" ("GuildId", "UserId", "WarningNumber", "MessageOptOut", "HasReceivedOptOutHint")
+        VALUES                        ($1,        $2,       $3,              false,           false                  );
+      `, [
+        guildId,
+        userId,
+        number,
+      ]);
+    }
   })
 }
 
