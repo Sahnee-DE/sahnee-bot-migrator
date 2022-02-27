@@ -27,6 +27,27 @@ export default async function migrate(db, json) {
         warning.WarningType === 'Warning' ? 1 : 2,
       ]);
     }
+    // CHANGELOGS
+    console.info('Migrating changelogs...');
+    const changelogGuilds = new Map();
+    for (const changelog of json.warningbot_changelog) {
+      const guildId = $numberLong(changelog.GuildId);
+      const version = changelog.LatestVersion.match(/\d+\.\d+.\d+/)[0];
+      const oldVersion = changelogGuilds.get(guildId);
+      if (!oldVersion || version > oldVersion) {
+        changelogGuilds.set(guildId, version);
+      }
+    }
+    for (const [guildId, version] of changelogGuilds) {
+      console.debug(' ... Changelog ' + guildId);
+      await db.query(`
+        INSERT INTO "GuildStates" ("GuildId", "SetRoles", "LastChangelogVersion")
+        VALUES                    ($1,        true,       $2                    );
+      `, [
+        guildId,
+        version,
+      ]);
+    }
   })
 }
 
