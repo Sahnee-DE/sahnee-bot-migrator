@@ -9,7 +9,7 @@ export default async function migrate(db, json) {
   console.info('Now migrating data to PostgreSQL ' + db.database);
 
   await transaction(db, async db => {
-    console.info('Migrating warnings...');
+    console.info('Migrating ' + json.warnings?.length + ' warnings...');
     // WARNINGS
     for(const warning of json.warnings) {
       console.debug(' ... Parsing warnings (' + warning._id + ')');
@@ -30,7 +30,7 @@ export default async function migrate(db, json) {
       ]);
     }
     // CHANGELOGS
-    console.info('Migrating changelogs...');
+    console.info('Migrating ' + json.warningbot_changelog?.length + ' changelogs...');
     const changelogGuilds = new Map();
     for (const changelog of json.warningbot_changelog) {
       console.debug(' ... Parsing warningbot_changelog (' + changelog._id + ')');
@@ -52,7 +52,7 @@ export default async function migrate(db, json) {
       ]);
     }
     // ROLES
-    console.info('Migrating roles...');
+    console.info('Migrating ' + json.warningbot_roles?.length + ' roles...');
     for (const role of json.warningbot_roles) {
       console.debug(' ... Parsing warningbot_roles (' + role._id + ')');
       const guildId = $numberLong(role.GuildId);
@@ -80,7 +80,7 @@ export default async function migrate(db, json) {
       ]);
     }
     // STATES
-    console.info('Migrating states...');
+    console.info('Migrating ' + json.warningbot_state?.length + ' states...');
     for (const state of json.warningbot_state) {
       console.debug(' ... Parsing warningbot_state (' + state._id + ')');
       const guildId = $numberLong(state.GuildId);
