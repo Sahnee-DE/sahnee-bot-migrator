@@ -11,6 +11,7 @@ module.exports = async function migrate(db, json) {
   await transaction(db, async db => {
     console.info('Migrating ' + json.warnings?.length + ' warnings...');
     // WARNINGS
+    await db.query(`DELETE FROM "Warnings";`);
     for(const warning of json.warnings) {
       console.debug(' ... Parsing warnings (' + warning._id + ')');
       const warningSnowflake = guidToSnowflake(warning._id);
@@ -31,6 +32,7 @@ module.exports = async function migrate(db, json) {
     }
     // CHANGELOGS
     console.info('Migrating ' + json.warningbot_changelog?.length + ' changelogs...');
+    await db.query(`DELETE FROM "GuildStates";`);
     const changelogGuilds = new Map();
     for (const changelog of json.warningbot_changelog) {
       console.debug(' ... Parsing warningbot_changelog (' + changelog._id + ')');
@@ -53,6 +55,7 @@ module.exports = async function migrate(db, json) {
     }
     // ROLES
     console.info('Migrating ' + json.warningbot_roles?.length + ' roles...');
+    await db.query(`DELETE FROM "Roles";`);
     for (const role of json.warningbot_roles) {
       console.debug(' ... Parsing warningbot_roles (' + role._id + ')');
       const guildId = $numberLong(role.GuildId);
@@ -81,6 +84,7 @@ module.exports = async function migrate(db, json) {
     }
     // STATES
     console.info('Migrating ' + json.warningbot_state?.length + ' states...');
+    await db.query(`DELETE FROM "UserGuildStates";`);
     for (const state of json.warningbot_state) {
       console.debug(' ... Parsing warningbot_state (' + state._id + ')');
       const guildId = $numberLong(state.GuildId);
